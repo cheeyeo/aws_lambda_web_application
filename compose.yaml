@@ -1,0 +1,24 @@
+services:
+  lambda:
+    container_name: meh
+    image: test
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 7531:7531
+    environment:
+      HOME: "/home"
+      DYNAMODB: Quotation
+      AWS_REGION: eu-west-1
+      AWS_PROFILE: devs
+    volumes:
+      - $HOME/.aws/:/home/.aws/
+    develop:
+      watch:
+        - action: rebuild
+          path: ./requirements.txt
+        - action: rebuild
+          path: ./app.py
+        - action: rebuild
+          path: templates/

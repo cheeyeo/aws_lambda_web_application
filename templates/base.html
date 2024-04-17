@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Hello from LAMBDA + Python + Flask ⚗️!</title>
+        <!-- <meta name="color-scheme" content="light dark"> -->
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    </head>
+    <body>
+        <h3>Quotation of the Day!</h3>
+        <div>{% block content %}<p>No messages.</p>{% endblock content %}</div>
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="container">
+                    <blockquote class="quote-card">
+                      <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                      </p>
+                
+                      <cite>
+                        Lorem I psum
+                      </cite>
+                    </blockquote>
+                
+                    <blockquote class="quote-card blue-card">
+                      <p>
+                       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis vero!
+                     </p>
+                
+                     <cite>
+                      Lorem
+                    </cite>
+                  </blockquote>
+                
+                  <blockquote class="quote-card green-card">
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque at, architecto culpa sint veniam temporibus!!
+                    </p>
+                
+                    <cite>
+                      Lorem ipsum
+                    </cite>
+                  </blockquote>
+                
+                  <blockquote class="quote-card red-card">
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque at, architecto culpa sint veniam temporibus!!architecto culpa sint veniam temporibus!!
+                    </p>
+                
+                    <cite>
+                      Lorem ipsum dolor
+                    </cite>
+                  </blockquote>
+                
+                  <blockquote class="quote-card yellow-card">
+                    <p>
+                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea tempora quia praesentium vitae ratione corporis similique, recusandae incidunt beatae, quae vel magni repellat commodi modi unde suscipit debitis labore odit!
+                   </p>
+                
+                   <cite>
+                    Ipsum dolor
+                  </cite>
+                </blockquote>
+                
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
