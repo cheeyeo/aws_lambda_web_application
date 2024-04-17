@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>
-        {{ quotation["Quotation"]["S"] }}
-    </p>
-    <p>
-        BY: {{ quotation["Author"]["S"] }}
-    </p>
+    <blockquote class="quote-card blue-card">
+        <p>{{ quotation["Quotation"]["S"] }}</p>
+        <cite>{{ quotation["Author"]["S"] }}</cite>
+    </blockquote>
 {% endblock content %}

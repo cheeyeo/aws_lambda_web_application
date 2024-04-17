@@ -21,11 +21,12 @@ COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.2 /lambda-adapter /opt
 
 WORKDIR /code
 
-RUN mkdir -p templates
+RUN mkdir -p templates static
 
 COPY app.py .
 
 COPY templates/* ./templates/
+COPY static/* ./static/
 
 ENV PYTHONUNBUFFERED=1
 
