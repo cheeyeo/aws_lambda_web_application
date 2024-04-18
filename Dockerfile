@@ -27,4 +27,5 @@ WORKDIR /code
 
 COPY ./webapp .
 
-CMD ["python", "app.py"]
+# CMD ["python", "app.py"]
+CMD ["gunicorn", "-b=:7531", "-w=1", "app:app"]

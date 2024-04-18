@@ -74,6 +74,3 @@ def root():
     quotation = resp['Items'][0]
 
     return render_template('quotation.html', quotation=quotation)
-
-
-app.run(debug=False, host=host, port=port)
