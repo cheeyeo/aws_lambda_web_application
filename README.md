@@ -1,13 +1,13 @@
 ### AWS LAMBDA Web App 
 
 
-[AWS Lambda Web Adapter]: https://github.com/awslabs/aws-lambda-web-adapter
-[Quotations]: https://www.goodreads.com/author/quotes/1429989.Richard_P_Feynman?page=1
+![image](Screenshot.png)
 
 
-Example of building and running Flask web application on AWS Lambda using [AWS Lambda Web Adapter]
 
-The web application returns a random quotation on each page refresh. The [Quotations] are by physicist Richard Feynmann.
+Example of building and running Flask web application on AWS Lambda using [AWS Lambda Web Adapter][1]
+
+The web application returns a random quotation on each page refresh. The [Quotations][2] are by physicist **Richard Feynmann**.
 
 
 ### Deployment
@@ -56,13 +56,18 @@ To run automatic rebuild:
 docker compose watch
 ```
 
-Visit the application by visiting http://localhost:7531
+View the application by visiting http://localhost:7531
 
 
 ### References
-- [AWS ECR Credential helper]: https://github.com/awslabs/amazon-ecr-credential-helper
-- [Run any web app on Lambda]: https://thekevinwang.com/2022/04/25/any-web-app-on-lambda/
-- [Lambda Docker apps]: https://aws.amazon.com/blogs/architecture/field-notes-three-steps-to-port-your-containerized-application-to-aws-lambda/
-- [Python multi-stage build]: https://luis-sena.medium.com/creating-the-perfect-python-dockerfile-51bdec41f1c8
-- [Applied Lambda docker apps]: https://itnext.io/using-aws-lambda-function-url-to-build-a-serverless-backend-for-slack-a292ef355a5d
-- [Containerized python development]: https://www.docker.com/blog/containerized-python-development-part-1/
+- [AWS Lambda Web Adapter][1]
+- [Richard Feynman Quotations][2]
+- [AWS ECR Credential helper](https://github.com/awslabs/amazon-ecr-credential-helper)
+- [Run any web app on Lambda](https://thekevinwang.com/2022/04/25/any-web-app-on-lambda/)
+- [Lambda Docker apps](https://aws.amazon.com/blogs/architecture/field-notes-three-steps-to-port-your-containerized-application-to-aws-lambda/)
+- [Python multi-stage build](https://luis-sena.medium.com/creating-the-perfect-python-dockerfile-51bdec41f1c8)
+- [Applied Lambda docker apps](https://itnext.io/using-aws-lambda-function-url-to-build-a-serverless-backend-for-slack-a292ef355a5d)
+- [Containerized python development](https://www.docker.com/blog/containerized-python-development-part-1/)
+
+[1]: https://github.com/awslabs/aws-lambda-web-adapter
+[2]: https://www.goodreads.com/author/quotes/1429989.Richard_P_Feynman?page=1
