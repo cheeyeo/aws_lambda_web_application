@@ -1,0 +1,7 @@
+.git
+.gitignore
+terraform_files/
+compose.yaml
+*.csv
+README.md
+*.md

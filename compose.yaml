@@ -1,7 +1,7 @@
 services:
   lambda:
-    container_name: meh
-    image: test
+    container_name: flask-lambda
+    image: flask-lambda
     build:
       context: .
       dockerfile: Dockerfile
@@ -10,6 +10,7 @@ services:
     environment:
       HOME: "/home"
       DYNAMODB: Quotation
+      DYNAMODB_INDEX: QuotationIndex
       AWS_REGION: eu-west-1
       AWS_PROFILE: devs
     volumes:
