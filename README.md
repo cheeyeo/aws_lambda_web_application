@@ -1,132 +1,68 @@
-### AWS LAMBDA EXAMPLE
-
-Quotes:
-
-https://www.goodreads.com/author/quotes/1429989.Richard_P_Feynman?page=2
+### AWS LAMBDA Web App 
 
 
-
-##### DYNAMODB
-
-https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-dynamo-db.html#http-api-dynamo-db-create-function
+[AWS Lambda Web Adapter]: https://github.com/awslabs/aws-lambda-web-adapter
+[Quotations]: https://www.goodreads.com/author/quotes/1429989.Richard_P_Feynman?page=1
 
 
-https://docs.aws.amazon.com/code-library/latest/ug/python_3_dynamodb_code_examples.html
+Example of building and running Flask web application on AWS Lambda using [AWS Lambda Web Adapter]
+
+The web application returns a random quotation on each page refresh. The [Quotations] are by physicist Richard Feynmann.
 
 
+### Deployment
+
+The stack used include:
+
+* AWS Lambda
+* AWS DynamoDB
+* Python Flask
+* Docker
 
 
-
-
-
-Research into running a web app on AWS LAMBDA
-
-ref: 
-
-https://thekevinwang.com/2022/04/25/any-web-app-on-lambda/
-
-https://github.com/awslabs/aws-lambda-web-adapter
-
-https://www.docker.com/blog/containerized-python-development-part-1/
-
-https://itnext.io/using-aws-lambda-function-url-to-build-a-serverless-backend-for-slack-a292ef355a5d
-
-
-GUIDE TO BUILD PYTHON IMAGES USING MULTI-STAGE AND VENV WHICH WORKS WITH LAMBDA:
-https://luis-sena.medium.com/creating-the-perfect-python-dockerfile-51bdec41f1c8
-
-
-
-BETTER GUIDE FOR LAMBDA DOCKER APPS + API GATEWAY:
-
-https://aws.amazon.com/blogs/architecture/field-notes-three-steps-to-port-your-containerized-application-to-aws-lambda/
-
-
-
-WAYPOINT TO DEPLOY APPS:
-https://www.waypointproject.io/
-
-
-
-
-
-
-
-
-### IAM ROLES FOR LAMBDA
-
-Assuming lambda role name is `lambda-ex`
+The terraform to create the infra is in **terraform_files**. Note that it currently creates the ECR repo but since we are also deploying the lambda as an image, it will error. Still trying to work round that issue...
 
 ```
-aws iam create-role --role-name lambda-ex --assume-role-policy-document file://trust-policy.json
+terraform -chdir=terraform_files init
 
-aws iam attach-role-policy --role-name lambda-ex --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+terraform -chdir=terraform_files plan -out=tfplan
+
+terraform -chdir=terraform_files apply tfplan
 ```
 
-
-# Using aws ecr credentials helpers
-https://github.com/awslabs/amazon-ecr-credential-helper
-
-Only need to create ~/.docker/config.json with
+To seed the database, the provided **quotes.csv** file has a sample 11 quotes:
 ```
-{
-	"credsStore": "ecr-login"
-}
+python aws_dynamodb.py --csv quotes.csv
 ```
 
-docker push/pull should just work without needing to run `aws ecr get-login-password ...`
+Note the ECR url as you will need to build and push the image to ECR manually.
+
+To view the application, use the function url in the output
+e.g. https://XXXXX.lambda-url.eu-west-1.on.aws/
 
 
+
+### Development
+
+To run locally, it uses docker compose:
 ```
-export FUNCTION_NAME=python-app
-export ACCOUNT_ID=432271807077
-export REPOSITORY=python-lambda-test
-export TAG=latest
+docker compose up
 
-aws lambda create-function \
-  --region us-east-1 \
-  --package-type Image \
-  --function-name $FUNCTION_NAME \
-  --code ImageUri=$ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/$REPOSITORY:$TAG \
-  --role arn:aws:iam::$ACCOUNT_ID:role/lambda-ex
-
-# BELOW CREATES AN API GATEWAY
-# NOTE: IT ADDS A GREEDY ROUTE TO /{proxy+} which allows for / and /foobar
-
-aws apigatewayv2 create-api \
-  --region us-east-1 \
-  --name python-app \
-  --protocol-type HTTP \
-  --target arn:aws:lambda:us-east-1:432271807077:function:python-app \
-  --route-key "GET /{proxy+}" \
-  --query "{ApiEndpoint: ApiEndpoint, ApiId: ApiId}" \
-  --output json
-
-
-export API_ENDPOINT="https://n3ine000w9.execute-api.us-east-1.amazonaws.com"
-export API_ID="n3ine000w9"
-
-aws lambda add-permission \
-  --region us-east-1 \
-  --statement-id invoice-generator-api \
-  --action lambda:InvokeFunction \
-  --function-name arn:aws:lambda:us-east-1:432271807077:function:python-app \
-  --principal apigateway.amazonaws.com \
-  --source-arn "arn:aws:execute-api:us-east-1:432271807077:$API_ID/*/*/{proxy+}"
-
-===============================================================================
-
-# BELOW CREATES A LAMBDA FUNCTION URL RESOURCE ...
-aws lambda create-function-url-config \
-  --region us-east-1 \
-  --function-name python-app \ 
-  --auth-type NONE
-
-aws lambda add-permission \
-    --region us-east-1 \
-    --function-name python-app \
-    --action lambda:InvokeFunctionUrl \
-    --statement-id FunctionURLAllowPublicAccess \
-    --principal "*" \
-    --function-url-auth-type NONE
+docker compose down
 ```
+
+To run automatic rebuild:
+```
+docker compose watch
+```
+
+Visit the application by visiting http://localhost:7531
+
+
+### References
+- [AWS ECR Credential helper]: https://github.com/awslabs/amazon-ecr-credential-helper
+- [Run any web app on Lambda]: https://thekevinwang.com/2022/04/25/any-web-app-on-lambda/
+- [Lambda Docker apps]: https://aws.amazon.com/blogs/architecture/field-notes-three-steps-to-port-your-containerized-application-to-aws-lambda/
+- [Python multi-stage build]: https://luis-sena.medium.com/creating-the-perfect-python-dockerfile-51bdec41f1c8
+- [Applied Lambda docker apps]: https://itnext.io/using-aws-lambda-function-url-to-build-a-serverless-backend-for-slack-a292ef355a5d
+- [Containerized python development]: https://www.docker.com/blog/containerized-python-development-part-1/

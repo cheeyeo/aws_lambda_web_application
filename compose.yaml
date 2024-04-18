@@ -20,6 +20,6 @@ services:
         - action: rebuild
           path: ./requirements.txt
         - action: rebuild
-          path: ./app.py
+          path: ./web/app.py
         - action: rebuild
-          path: templates/
+          path: ./web/templates/*.html
